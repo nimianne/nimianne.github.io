@@ -83,51 +83,23 @@
 <div class="gallery" id="gallery"></div>
 
 <script>
-  const heroes = [
-    {
-      "name": "Superman",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Batman",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Wonder Woman",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Spider-Man",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Iron Man",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Hulk",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Thor",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Captain America",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Black Widow",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    },
-    {
-      "name": "Flash",
-      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
-    }
-  ];
-
   const gallery = document.getElementById('gallery');
   const searchInput = document.getElementById('searchInput');
+
+  let heroes = [];
+
+  // Загрузка JSON
+  async function loadHeroes() {
+    try {
+      const response = await fetch('heroes.json');
+      if (!response.ok) throw new Error('Не удалось загрузить файл heroes.json');
+      heroes = await response.json();
+      renderGallery();
+    } catch (error) {
+      console.error(error);
+      gallery.innerHTML = '<p style="text-align:center; color:red;">Ошибка загрузки данных.</p>';
+    }
+  }
 
   function renderGallery(filter = '') {
     gallery.innerHTML = '';
@@ -155,8 +127,8 @@
     renderGallery(searchInput.value);
   });
 
-  // Initial render
-  renderGallery();
+  // Инициализация
+  loadHeroes();
 </script>
 
 </body>
