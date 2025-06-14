@@ -1,28 +1,163 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hero Gallery</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"> 
+  <title>Heroes Gallery</title>
   <style>
-    html, body {
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .card-title {
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .grayed {
+      filter: grayscale(100%);
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
-  <div id="root"></div>
 
-  <!-- React and Babel -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"  crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"  crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+<h1>Герои</h1>
 
-  <!-- Load your JSX code -->
-  <script type="text/babel" src="./App.jsx"></script>
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="Введите имя героя..." />
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+  const heroes = [
+    {
+      "name": "Superman",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Batman",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Wonder Woman",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Spider-Man",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Iron Man",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Hulk",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Thor",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Captain America",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Black Widow",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    },
+    {
+      "name": "Flash",
+      "pic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAA..."
+    }
+  ];
+
+  const gallery = document.getElementById('gallery');
+  const searchInput = document.getElementById('searchInput');
+
+  function renderGallery(filter = '') {
+    gallery.innerHTML = '';
+
+    heroes.forEach(hero => {
+      const match = hero.name.toLowerCase().includes(filter.toLowerCase());
+
+      const card = document.createElement('div');
+      card.className = 'card' + (match ? '' : ' grayed');
+
+      const img = document.createElement('img');
+      img.src = hero.pic;
+
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = hero.name;
+
+      card.appendChild(img);
+      card.appendChild(title);
+      gallery.appendChild(card);
+    });
+  }
+
+  searchInput.addEventListener('input', () => {
+    renderGallery(searchInput.value);
+  });
+
+  // Initial render
+  renderGallery();
+</script>
+
 </body>
 </html>
