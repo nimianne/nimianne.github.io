@@ -671,6 +671,10 @@
             return heroes.find(hero => hero.name === name );
         }
 
+            function scrollToComboTable() {
+        comboTable.scrollIntoView({ behavior: 'smooth' });
+    }
+
         function createCell(heroName) {
             const cell = document.createElement('td');
             const hero = getHeroByName(heroName);
@@ -749,6 +753,7 @@
                 // Обработчик клика
                 card.addEventListener('click', () => {
                     showCombination(hero.name);
+                    scrollToComboTable();
                 });
 
                 if(!hero?.hidden)  gallery.appendChild(card);
